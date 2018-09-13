@@ -12,6 +12,19 @@ for (i = 0; i < imgData.data.length; i += 4) {
     imgData.data[i+3] = 255;
 }
 
+// c.addEventListener('mousemove', function(evt) {
+//         var mousePos = getMousePos(c, evt);
+//         var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
+// console.log(message);
+// }, false);
+
+// function getMousePos(c, evt) {
+// 	return {
+// 	  x: evt.clientX,
+// 	  y: evt.clientY
+// 	};
+// }
+
 /*------------ACA COMIENZAN LAS FUNCIONES------------*/
 
 function dibujar() 
