@@ -1,0 +1,43 @@
+/*
+	muestra de una linea
+	====================
+var lienzo = document.getElementById('lienzo');
+var contexto = lienzo.getContext('2d');
+contexto.beginPath(); //Inicia el camino para dibujar
+contexto.moveTo(50,70); //Mueve el cursor a la posicion x=50 y = 70
+contexto.lineTo(140,250); //Hace una linea entre (50,70) - (140 - 250)
+contexto.strokeStyle = '#3498db'; // color de la linea
+contexto.strokeStyle = rgbToHexadecimal(139,143,201);
+contexto.stroke(); //Hace visible la linea
+
+============
+Propiedades
+============
+
+Grosor:
+contexto.lineWidth = 20;
+Color:
+contexto.strokeStyle = '#3498db';
+	
+
+*/
+*/
+// Mostrar la posicion del mouse
+var canvas = document.getElementById("myCanvas");
+var ctx = canvas.getContext("2d");
+
+canvas.addEventListener('mousemove', function(evt) {
+        var mousePos = getMousePos(canvas, evt);
+        var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
+console.log(message);
+}, false);
+
+function getMousePos(canvas, evt) {
+return {
+  x: evt.clientX,
+  y: evt.clientY
+};
+}
+*/
+
+//http://knowdimension.com/blog/lenguajes/javascript-detectando-las-coordenadas-del-mouse-en-javascript/
