@@ -11,6 +11,14 @@ for (i = 0; i < imgData.data.length; i += 4) {
     imgData.data[i+2] = 0;
     imgData.data[i+3] = 255;
 }
+var canvas = document.getElementById('myCanvas');
+var context = canvas.getContext('2d');
+
+// canvas.addEventListener('click', function(evt) {
+//         var mousePos = getMousePos(canvas, evt);
+//         var message = mousePos.x + ',' + mousePos.y;
+// console.log(message);
+// }, false);
 
 function getMousePos(c, evt) {
 	return {
@@ -19,127 +27,111 @@ function getMousePos(c, evt) {
 	};
 }
 
-var count_click = 0;
-function count_click_add() {
-  count_click += 1;
+/*-----CREACION DE LA CLASE LINEA-----*/
+class Line {
+    constructor(data){
+        this.xi = data.xi;
+        this.yi = data.yi;
+        this.xf = data.xf;
+        this.yf = data.yf;
+    }
+     
+    getInicial(){
+        return {
+        	xi: this.xi,
+        	yi: this.yi,
+        }
+    }
+
+    getFinal(){
+        return {
+        	xf: this.xf,
+        	yf: this.yf,
+        }
+    }
+    setInicial(xi,yi){
+        this.xi = xi;
+        this.yi = yi;
+    }
+    setFinal(xf,yf){
+        this.xf = xf;
+        this.yf = yf;
+    }
 }
 
-// document.getElementById('espacio').innerHTML = 'estas haciendo click ' + count_click;
-
-
-// function coordenadas(event){
-// 	x=event.clientX;
-// 	y=event.clientY;
-
-// 	document.getElementById("x").value = x;
-// 	document.getElementById("y").value = y;
-// 	document.getElementById('myCanvas').click = function() {
-// 		document.getElementById('espacio').innerHTML = 'estas haciendo click ';
-// 		count_click_add();
-// 	}
-
-// // }
-// /*--version 2 --*/
-// c.addEventListener('mousemove', function(evt) {
-
-// 	var x = [], y = [];
-
-// 	var mousePos = getMousePos(c, evt);
-// 	// var mousePosition = getMousePosXY(c, evt);
-// 	count_click_add();
-// 	document.getElementById('espacio').innerHTML = 'estas haciendo click <br> ' + count_click;
-// 	// var message = mousePos.x + ',' + mousePos.y;
-// 	x[count_click] = mousePos.x;
-// 	y[count_click] = mousePos.y;
-
-// 	console.log('-->'+ x[count_click]+','+y[count_click]);
-
-// 	/*-------------------------------------*/
-// 	/*--------    DIBUJAR LINEA    --------*/
-// 	/*-------------------------------------*/
-
-
-// 	if(x[1] == x[2])	//revisamos si es una linea vertical
-// 	{
-// 		for (var i = y[1]; i <= y[2]; i++) 
-// 		{
-// 			ctx.putImageData(imgData, x[1], i);
-// 		}
-// 	}
-// 	else{
-// 			if (y[1] == y[2]) 	//revisamos si es horizontal
-// 			{
-// 				for (var i = x[1]; i <= x[2]; i++) 
-// 				{
-// 					ctx.putImageData(imgData, i, y[1]);
-// 				}
-// 			}
-// 			else{
-// 				if ((y[2]-y[1])==(x[2]-x[1])) //revisamos si es de 45°
-// 				{
-// 					for (var i = x[1]; i <x[2]; i++) 
-// 					{
-// 						console.log(x[1]+x[2]);
-// 						ctx.putImageData(imgData, i, i);
-// 					}
-// 				}
-// 			}
-// 		}
-
-
-// 	/*--------------------------------------*/
-// 	/*-------  FIN  DIBUJAR LINEA    -------*/
-// 	/*--------------------------------------*/
-
-// }, false);
-
-
-// function getMousePosXY(c,evt){
-// 	var x = [],y =[];
-
-// 	x[i] = evt.clientX;
-// 	y[i] = evt.clientY;
-// 	console.log(x[i]+','+y[i]);
-
+// let data = {
+	
+// 	xi:10,
+// 	yi:10,
+// 	xf:100,
+// 	yf:100
 // }
+ 
 
 
+/*---DEFINICION DE NUEVA INSTANCIA---*/
 
-/*------------ACA COMIENZAN LAS FUNCIONES------------*/
+var btn = document.getElementById('btn-submit');
 
-function dibujar() 
-{
-	var x0 = document.getElementById("x0").value;
-	var xf = document.getElementById("xf").value;
-	var y0 = document.getElementById("y0").value;
-	var yf = document.getElementById("yf").value;
+canvas.addEventListener('click', function(evt) {
+
+	var mousePos = getMousePos(canvas, evt);
+	var point = [mousePos.x,mousePos.y];
+
+	// console.log(point);
+
+	let data = {
+		xi:point[0],
+		yi:point[1],
+		xf:100,
+		yf:100
+	}
+
+	var line = new Line(data);
+	console.log(line);
+
+	console.log(line.getInicial());
+
+	xi = line.getInicial().xi;
+	yi = line.getInicial().yi;
+	xf = line.getFinal().xf;
+	yf = line.getFinal().yf;
+
+	console.log({xi,yi,xf,yf});
+
+	dibujarLinea(xi,yi,xf,yf);
 
 	
-	if(x0 == xf)	//revisamos si es una linea vertical
+	
+}, false);
+
+
+function dibujarLinea(xi,yi,xf,yf) 
+{
+	if (yi>=yf || xi>=xf) 
 	{
-		for (var i = y0; i <= yf; i++) 
-		{
-			ctx.putImageData(imgData, x0, i);
-		}
+		var aux;
+		aux = xf;
+		xf = xi;
+		xi = aux;
+		aux = yf;
+		yf = yi;
+		yi = aux;
+		
 	}
-	else{
-		if (y0 == yf) 	//revisamos si es horizontal
-		{
-			for (var i = x0; i <= xf; i++) 
-			{
-				ctx.putImageData(imgData, i, y0);
-			}
-		}
-		else{
-			if ((yf-y0)==(xf-x0)) //revisamos si es de 45°
-			{
-				for (var i = x0; i <xf; i++) 
-				{
-					console.log(x0+xf);
-					ctx.putImageData(imgData, i, i);
-				}
-			}
-		}
+		
+	var m = (yf-yi)/(xf-xi);
+	var b = yi - m*xi;
+
+	for (var i = xi ; i <= xf; i++) {
+		var y = (m*i)+b;
+		ctx.putImageData(imgData, i, Math.round(y));
+		console.log(i);
 	}
 
 }
+
+
+
+
+
