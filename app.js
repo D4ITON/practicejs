@@ -12,14 +12,14 @@ for (i = 0; i < imgData.data.length; i += 4) {
     imgData.data[i+3] = 255;
 }
 
-html2canvas(document.body, {
-  onrendered (canvas) {
-    var link = document.getElementById('download');;
-    var image = canvas.toDataURL();
-    link.href = image;
-    link.download = 'screenshot.png';
-  }
- });
+// html2canvas(document.body, {
+//   onrendered (canvas) {
+//     var link = document.getElementById('download');;
+//     var image = canvas.toDataURL();
+//     link.href = image;
+//     link.download = 'screenshot.png';
+//   }
+//  });
 
 
 
@@ -82,6 +82,9 @@ function count_click_add() {
   count_click += 1;
 }
 
+/*------VARIABLES GLOBALES------*/
+var punto = []; //variable punto
+var line = new Line(0,0,0,0);
 
 /*---DEFINICION DE NUEVA INSTANCIA---*/
 
@@ -94,35 +97,47 @@ canvas.addEventListener('click', function(evt) {
 	var ck = count_click_add();
 	console.log(count_click);
 
-	var data;
+	// var data;
+	 
 
-	var line = new Line(0,0,0,0);
-	console.log(line);
+	
+	// console.log(line);
 	console.log(count_click%2);
 
 	if (count_click % 2 == 1 ) 
 	{
-			data = {
-			xi:point[0],
-			yi:point[1],
-			// xf:30,
-			// yf:230
-		}
-		line.setInicial(data.xi,data.yi);
+		punto.push(point[0]);
+		punto.push(point[1]);
+		line.setInicial(punto[0],punto[1]);
 	}
 	else if (count_click % 2 == 0) {
-		data = {
-			xf:point[0],
-			yf:point[1],
-			// xf:30,
-			// yf:230
-		}
-		line.setFinal(data.xf,data.yf);
+
+		punto.push(point[0]);
+		punto.push(point[1]);
+		line.setFinal(punto[2],punto[3]);
+
+		// data = {
+		// 	xf:point[0],
+		// 	yf:point[1],
+		// 	xf:30,
+		// 	yf:230
+		// }
+		// line.setFinal(data.xf,data.yf);
 	}
 
-	console.log(line);
+	
 
 
+	
+
+	
+	console.log(punto);
+	
+
+
+if (punto.length === 4) 
+{
+	console.log(punto.length);
 	// console.log(line.getInicial());
 
 	xi = line.getInicial().xi;
@@ -130,14 +145,17 @@ canvas.addEventListener('click', function(evt) {
 	xf = line.getFinal().xf;
 	yf = line.getFinal().yf;
 
-	// console.log({xi,yi,xf,yf});
-
+	console.log(xi,yi,xf,yf);
 	dibujarLinea(xi,yi,xf,yf);
+	// var a = ;
+	// console.log(a);
+	
+}
 
-	
-	
+
+
+
 }, false);
-
 
 function dibujarLinea(xi,yi,xf,yf) 
 {
@@ -159,12 +177,7 @@ function dibujarLinea(xi,yi,xf,yf)
 	for (var i = xi ; i <= xf; i++) {
 		var y = (m*i)+b;
 		ctx.putImageData(imgData, i, Math.round(y));
-		// console.log(i);
+		console.log(i);
 	}
 
 }
-
-
-
-
-
