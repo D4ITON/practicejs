@@ -11,6 +11,21 @@ for (i = 0; i < imgData.data.length; i += 4) {
     imgData.data[i+2] = 0;
     imgData.data[i+3] = 255;
 }
+
+html2canvas(document.body, {
+  onrendered (canvas) {
+    var link = document.getElementById('download');;
+    var image = canvas.toDataURL();
+    link.href = image;
+    link.download = 'screenshot.png';
+  }
+ });
+
+
+
+
+
+
 var canvas = document.getElementById('myCanvas');
 var context = canvas.getContext('2d');
 
@@ -30,10 +45,10 @@ function getMousePos(c, evt) {
 /*-----CREACION DE LA CLASE LINEA-----*/
 class Line {
     constructor(data){
-        this.xi = data.xi;
-        this.yi = data.yi;
-        this.xf = data.xf;
-        this.yf = data.yf;
+        this.xi = 0;
+        this.yi = 0;
+        this.xf = 0;
+        this.yf = 0;
     }
      
     getInicial(){
@@ -59,14 +74,13 @@ class Line {
     }
 }
 
-// let data = {
-	
-// 	xi:10,
-// 	yi:10,
-// 	xf:100,
-// 	yf:100
-// }
- 
+// contador de clicks
+var count_click = 0;
+
+//AÑADE UN CLICK AL EJECUTAR LA FUNCIÓN
+function count_click_add() {
+  count_click += 1;
+}
 
 
 /*---DEFINICION DE NUEVA INSTANCIA---*/
@@ -77,27 +91,46 @@ canvas.addEventListener('click', function(evt) {
 
 	var mousePos = getMousePos(canvas, evt);
 	var point = [mousePos.x,mousePos.y];
+	var ck = count_click_add();
+	console.log(count_click);
 
-	// console.log(point);
+	var data;
 
-	let data = {
-		xi:point[0],
-		yi:point[1],
-		xf:100,
-		yf:100
+	var line = new Line(0,0,0,0);
+	console.log(line);
+	console.log(count_click%2);
+
+	if (count_click % 2 == 1 ) 
+	{
+			data = {
+			xi:point[0],
+			yi:point[1],
+			// xf:30,
+			// yf:230
+		}
+		line.setInicial(data.xi,data.yi);
+	}
+	else if (count_click % 2 == 0) {
+		data = {
+			xf:point[0],
+			yf:point[1],
+			// xf:30,
+			// yf:230
+		}
+		line.setFinal(data.xf,data.yf);
 	}
 
-	var line = new Line(data);
 	console.log(line);
 
-	console.log(line.getInicial());
+
+	// console.log(line.getInicial());
 
 	xi = line.getInicial().xi;
 	yi = line.getInicial().yi;
 	xf = line.getFinal().xf;
 	yf = line.getFinal().yf;
 
-	console.log({xi,yi,xf,yf});
+	// console.log({xi,yi,xf,yf});
 
 	dibujarLinea(xi,yi,xf,yf);
 
@@ -126,7 +159,7 @@ function dibujarLinea(xi,yi,xf,yf)
 	for (var i = xi ; i <= xf; i++) {
 		var y = (m*i)+b;
 		ctx.putImageData(imgData, i, Math.round(y));
-		console.log(i);
+		// console.log(i);
 	}
 
 }
